@@ -27,6 +27,22 @@ git add .
 git commit -m "Добавлен ответ к первому заданию"
 git push
 ```
+```
+sudo apt update
+sudo apt install postgresql postgresql-client postgresql-contrib
+sudo -i
+wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_latest_6.0+debian11_all.deb
+dpkg -i zabbix-release_latest_6.0+debian11_all.deb
+apt update
+apt install zabbix-server-pgsql zabbix-frontend-php php7.4-pgsql zabbix-apache-conf zabbix-sql-scripts zabbix-agent
+sudo -u postgres createuser --pwprompt zabbix
+sudo -u postgres createdb -O zabbix zabbix
+zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | sudo -u zabbix psql zabbix
+sudo nano /etc/zabbix/zabbix_server.conf
+// Далее меняем DBPassword
+systemctl restart zabbix-server zabbix-agent apache2
+systemctl enable zabbix-server zabbix-agent apache2
+```
 
 ---
 
@@ -56,4 +72,14 @@ git push
 git add .
 git commit -m "Добавлен ответ ко второму заданию"
 git push
+```
+```
+wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_latest_6.0+debian11_all.deb
+dpkg -i zabbix-release_latest_6.0+debian11_all.deb
+apt update
+apt install zabbix-agent
+sudo nano /etc/zabbix/zabbix_agentd.conf
+// Прописываем адрес сервера в Server=
+systemctl restart zabbix-agent
+systemctl enable zabbix-agent
 ```
